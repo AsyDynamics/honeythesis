@@ -1,0 +1,3 @@
+/home/asy/Documents/sim/simulation/build/CMakeFiles/rebuild_cache.dir
+/home/asy/Documents/sim/simulation/build/CMakeFiles/run.dir
+/home/asy/Documents/sim/simulation/build/CMakeFiles/edit_cache.dir
