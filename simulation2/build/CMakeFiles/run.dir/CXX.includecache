@@ -6,9 +6,9 @@
 
 #IncludeRegexTransform: 
 
-/home/asy/Documents/sim/simulation2/src/lambda.cpp
+/home/asy/Documents/honeythesis/simulation2/src/lambda.cpp
 lambda.h
-/home/asy/Documents/sim/simulation2/src/lambda.h
+/home/asy/Documents/honeythesis/simulation2/src/lambda.h
 iostream
 -
 vector
@@ -20,11 +20,11 @@ random
 iomanip
 -
 
-/home/asy/Documents/sim/simulation2/src/lambda.h
+/home/asy/Documents/honeythesis/simulation2/src/lambda.h
 vector
 -
 
-/home/asy/Documents/sim/simulation2/src/main.cpp
+/home/asy/Documents/honeythesis/simulation2/src/main.cpp
 iostream
 -
 vector
@@ -32,13 +32,7 @@ vector
 ctime
 -
 lambda.cpp
-/home/asy/Documents/sim/simulation2/src/lambda.cpp
-my_random.h
-/home/asy/Documents/sim/simulation2/src/my_random.h
-
-/home/asy/Documents/sim/simulation2/src/my_random.h
-stdlib.h
--
-math.h
+/home/asy/Documents/honeythesis/simulation2/src/lambda.cpp
+fstream
 -
 

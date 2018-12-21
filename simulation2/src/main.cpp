@@ -2,22 +2,25 @@
 #include <vector>
 #include <ctime>
 #include "lambda.cpp"
-#include "my_random.h"
+#include <fstream>
+//#include "my_random.h"
 using namespace std;
 
 int main(){
     cout << "Enter main\n";
-    double a(3), b(0.7), sigma(0.1), alpha(1.5), lambda0(0.7);
-    double beta(1), X0(10), c(1.5), h(0.001), path(10000);
-    int iter(30), step(5);
+	ofstream fout("record.csv");
+    double a(2), b(1), sigma(0.1), alpha(2), lambda0(1);
+    double beta(1.5), X0(3), c(1.5), h(0.01), path(10000);
+    int iter(80), step(5);
     double PT[iter];
 
+	cout << "h = " << h << endl;
 // for random distribution
     random_device rd;
     mt19937 gen(rd());
     exponential_distribution<> exp_beta(beta);
 
-    for (int k=20; k<iter; k++){
+    for (int k = 0; k < iter; k++){
         clock_t begin = clock();
         int Num(0);
         int T = k*step;
@@ -40,7 +43,9 @@ int main(){
         PT[k] = Num/path;
         clock_t end = clock();
         double elapsed_secs = double(end - begin) / CLOCKS_PER_SEC;
-        cout <<"Current PT: "<< PT[k] << ", Elapsed time: " << elapsed_secs << endl;
-    }
+        cout <<"No." << k <<" iteration, PT: "<< PT[k] << ", Elapsed time: " << elapsed_secs << endl;
+    	fout << k+1 << "," << PT[k] << "," << elapsed_secs << endl;
+	}
+	fout.close();
 	return 0;
 }

@@ -22,8 +22,8 @@ vector<int> Lambda_Generator(double h, int T, double lambda0, double a, double b
     vector<int> Nt;
     lambda.push_back(lambda0);
     // main
-    for (int j=1;j<J;j++){
-        double lambda_temp = lambda[j-1] + a*(b-lambda[j-1])*h + sigma*sqrt(lambda[j-1])*normal(gen);
+    for (int j=1; j<J; j++){
+        double lambda_temp = lambda[j-1] + a*(b-lambda[j-1])*h + sigma*sqrt(lambda[j-1])*sqrt(h)*normal(gen);
         lambda.push_back(lambda_temp);
         temp += h*lambda[j];
         if (temp>eps){
