@@ -70,48 +70,36 @@ int main(){
 
 
 // Real Q measurement
-
         double tempMeanExp(0);
         double lambda0Tran = lambda0*tempTran;
         double lambdatau[int(path)]; // double lambda0Tran = lambda0*tempTran
-        for (int i = 0; i < path; i++){
-    // this line should return lambda and Nt, instead of calling function
-            double lambda[J], temp(0);
-            lambda[0] = lambda0Tran; // used in i-path loop
-            vector<int> Nt; // used in i-path loop
-            for (int j=1; j<J; j++){
-                lambda[j] = lambda[j-1] + aTran*(bTran-lambda[j-1])*h + sigmaTran*sqrt(lambda[j-1])*sqrt(h)*normal(gen);
-                temp += lambda[j];
-                if (temp>eps){
-                    double skip = exp_alphaTran(gen);
-                    lambda[j] += skip;
-                    eps = exp_1(gen);
-                    temp = 0;
-                    Nt.push_back(j);
-                }
-            }
+
     // lmabda_generation finished
     // insted of j-J for loop, the do-while should be used
-            int pos(0), j(0), Ntlen(Nt.size());
-            double Xt(X0);
+    	for (int i=0; i<path; i++){
+            double Xt(X0), temp(0), lambda(lambda0Tran);
             do {
+		        lambda = lambda + aTran*(bTran-lambda)*h + sigmaTran*sqrt(lambda)*sqrt(h)*normal(gen);
                 Xt += c*h;
-                if (pos >= Ntlen){break;}
-                if (j == Nt[pos]){
-                    pos ++;
-                    Xt -= exp_betaTran(gen);}
-                j++;
-            }
-            while (Xt > 0);
-            lambdatau[i] = lambda[j];
-
-            tempMeanExp += exp(-m*lambdatau[i]);
+		        temp += h*lambda;
+		        if (temp>eps){
+			        double skip = exp_alphaTran(gen);
+			        Xt -= exp_betaTran(gen);
+			        if (Xt <= 0){
+                        tempMeanExp += exp(-m*lambda);
+				        lambdatau[i] = lambda;
+				        break;}
+                    else {
+			        lambda += skip;
+			        eps = exp_1(gen);
+			        temp = 0;
+                    }
+                }
+// whether record lambdatau here
+            }while (Xt > 0);
         }
-
         Plambda4[k] = exp( m*lambda0*tempTran - v*X0) * (beta-v) / beta*(alpha-eta)/alpha*tempMeanExp/path;
 // Real Q measurement finished
-
-
         clock_t end = clock();
         double elapsed_secs = double(end - begin) / CLOCKS_PER_SEC;
         double elapsed_middle_secs = double(end - middle) / CLOCKS_PER_SEC;
