@@ -11,7 +11,7 @@ int main(){
     cout << "Enter main\n";
     double a(3), b(0.7), sigma(0.1), alpha(1.5);
     double beta(1), X0(10), c(1.5), h(0.01), path(10000);
-    int iter(10), step(1), T(100);
+    int iter(10), step(1), T(400);
     double Plambda[iter], Plambda1[iter], Plambda2[iter], Plambda3[iter], Plambda4[iter];
 	double v(0.2771), eta(0.1979);
 // Q measurement
