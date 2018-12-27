@@ -18,20 +18,21 @@ vector<int> Lambda_Generator(double h, int T, double lambda0, double a, double b
     double eps = exp_1(gen);
     int J = T/h;
     double temp = 0;
-    vector<double> lambda;
+//    vector<double> lambda;
+    double lambda[J];
     vector<int> Nt;
-    lambda.push_back(lambda0);
+    lambda[0] = lambda0;
     // main
     for (int j=1; j<J; j++){
         double lambda_temp = lambda[j-1] + a*(b-lambda[j-1])*h + sigma*sqrt(lambda[j-1])*sqrt(h)*normal(gen);
-        lambda.push_back(lambda_temp);
+        lambda[j] = lambda_temp;
         temp += h*lambda[j];
         if (temp>eps){
             double skip = exp_alpha(gen);
             lambda[j] += skip;
             eps = exp_1(gen);
             temp = 0;
-            Nt.push_back(j+1);
+            Nt.push_back(j);
         }
     }
     return Nt;

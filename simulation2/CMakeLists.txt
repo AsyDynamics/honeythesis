@@ -1,4 +1,4 @@
-project(simulation)
+project(simulation2)
 cmake_minimum_required(VERSION 3.5)
 add_executable(run src/main.cpp)
 set(EXECUTABLE_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/bin)

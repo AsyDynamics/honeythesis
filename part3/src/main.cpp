@@ -68,6 +68,7 @@ int main(){
 
 
 // Real Q measurement
+/*
         double tempMeanExp(0);
         double lambda0Tran = lambda0*tempTran;
         double lambdatau[path]; // double lambda0Tran = lambda0*tempTran
@@ -107,15 +108,19 @@ int main(){
 
         Plambda4[k] = exp( m*lambda0*tempTran - v*X0) * (beta-v) / beta*(alpha-eta)/alpha*tempMeanExp/path; 
 // Real Q measurement finished
-
+*/
 
         clock_t end = clock();
         double elapsed_secs = double(end - begin) / CLOCKS_PER_SEC;
-        double elapsed_middle_secs = double(end - middle) / CLOCKS_PER_SEC;
-        cout <<"No." << k <<" iteration, PT: "<< Plambda1[k] << ", full time: " << elapsed_secs << << ", half time: " << elapsed_middle_secs << endl;
+//        double elapsed_middle_secs = double(end - middle) / CLOCKS_PER_SEC;
+//        cout <<"No." << k <<" iteration, PT: "<< Plambda1[k] << ", full time: " << elapsed_secs << << ", half time: " << elapsed_middle_secs << endl;
+        cout <<"No." << k <<" iteration, lambda 1,2,3: "<< Plambda1[k]<< "," << Plambda2[k] <<"," << Plambda3[k] << ", full time: " << elapsed_secs << endl;
+
 // output result
 //    	fout << k+1 << "," << PT[k] << "," << elapsed_secs << endl;
-        fout << Plambda[k] << "," << Plambda1[k]*100 << "," << Plambda2[k]*100 << "," << Plambda[3]*100 << "," << Plambda4[k]*100 << endl;
+//        fout << Plambda[k] << "," << Plambda1[k]*100 << "," << Plambda2[k]*100 << "," << Plambda[3]*100 << "," << Plambda4[k]*100 << endl;
+        fout << Plambda[k] << "," << Plambda1[k]*100 << "," << Plambda2[k]*100 << "," << Plambda[3]*100 << endl;
+
 	}
 	fout.close();
 	return 0;

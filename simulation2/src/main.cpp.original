@@ -9,8 +9,8 @@ using namespace std;
 int main(){
     cout << "Enter main\n";
 	ofstream fout("record.csv");
-    double a(2), b(1), sigma(0.1), alpha(2), lambda0(1);
-    double beta(1.5), X0(3), c(1.5), h(0.01), path(10000);
+    double a(3), b(0.7), sigma(0.1), alpha(1.5), lambda0(0.7);
+    double beta(1), X0(10), c(1.5), h(0.01), path(10000);
     int iter(80), step(5);
     double PT[iter];
 
@@ -20,7 +20,7 @@ int main(){
     mt19937 gen(rd());
     exponential_distribution<> exp_beta(beta);
 
-    for (int k = 1; k <= iter; k++){
+    for (int k = 1; k <= 10; k++){
         clock_t begin = clock();
         int Num(0);
         int T = k*step;
