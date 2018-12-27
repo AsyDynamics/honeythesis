@@ -20,10 +20,10 @@ int main(){
     mt19937 gen(rd());
     exponential_distribution<> exp_beta(beta);
 
-    for (int k = 1; k <= iter; k++){
+    for (int k = 0; k < iter; k++){
         clock_t begin = clock();
         int Num(0);
-        int T = k*step;
+        int T = (k+1)*step;
         int J = T/h;
         for (int i = 0; i < path; i++){
             vector<int> Nt = Lambda_Generator(h,T,lambda0,a,b,sigma,alpha);
@@ -32,7 +32,7 @@ int main(){
             for (int j=0; j<J; j++){
                 Xt += c*h;
                 if (pos >= Ntlen) {break;}
-                if (j+1 == Nt[pos]){
+                if (j == Nt[pos]){
                     pos ++;
                     Xt -= exp_beta(gen);}
                 if (Xt <= 0){

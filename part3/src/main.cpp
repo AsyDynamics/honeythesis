@@ -1,3 +1,4 @@
+
 #include <iostream>
 #include <vector>
 #include <ctime>
@@ -9,8 +10,8 @@ using namespace std;
 int main(){
     cout << "Enter main\n";
     double a(2), b(1), sigma(0.1), alpha(2);
-    double beta(1.5), X0(3), c(1.5), h(0.01);
-    int iter(10), step(1), T(400), path(10000);
+    double beta(1.5), X0(3), c(1.5), h(0.01), path(10000);
+    int iter(10), step(1), T(100);
     double Plambda[iter], Plambda1[iter], Plambda2[iter], Plambda3[iter], Plambda4[iter];
 	double v(0.3927), eta(0.2946);
 // Q measurement
@@ -34,24 +35,24 @@ int main(){
 
 	ofstream fout("record.csv");
 
-    for (int k = 1; k <= iter; k++){
+    for (int k = 0; k < iter; k++){
         clock_t begin = clock();
 
 
 // Real P measurement
-		double lambda0 = k*step;
+		double lambda0 = (k+1)*step;
         int Num(0);
         int J = T/h;
 
 		for (int i = 0; i < path; i++){
 			vector<int> Nt = Lambda_Generator(h,T,lambda0,a,b,sigma,alpha);
-			int pos(0), j(0), Ntlen(Nt.size());
+			int pos(0), Ntlen(Nt.size());
 			double Xt(X0);
 
             for (int j=0; j<J; j++){
                 Xt += c*h;
                 if (pos >= Ntlen){break;}
-                if (j+1 == Nt[pos]){
+                if (j == Nt[pos]){
                     pos ++;
                     Xt -= exp_beta(gen);}
                 if (Xt <= 0){
@@ -59,6 +60,7 @@ int main(){
                     break;}
             }
         }
+//		cout << "Num: " << Num <<"," << Num/path <<endl;
         Plambda[k]  = lambda0;
         Plambda1[k] = Num/path;
 		Plambda2[k] = exp(eta*lambda0 - v*X0);
@@ -68,10 +70,10 @@ int main(){
 
 
 // Real Q measurement
-/*
+
         double tempMeanExp(0);
         double lambda0Tran = lambda0*tempTran;
-        double lambdatau[path]; // double lambda0Tran = lambda0*tempTran
+        double lambdatau[int(path)]; // double lambda0Tran = lambda0*tempTran
         for (int i = 0; i < path; i++){
     // this line should return lambda and Nt, instead of calling function
             double lambda[J], temp(0);
@@ -85,7 +87,7 @@ int main(){
                     lambda[j] += skip;
                     eps = exp_1(gen);
                     temp = 0;
-                    Nt.push_back(j+1);
+                    Nt.push_back(j);
                 }
             }
     // lmabda_generation finished
@@ -95,7 +97,7 @@ int main(){
             do {
                 Xt += c*h;
                 if (pos >= Ntlen){break;}
-                if (j+1 == Nt[pos]){
+                if (j == Nt[pos]){
                     pos ++;
                     Xt -= exp_betaTran(gen);}
                 j++;
@@ -108,18 +110,17 @@ int main(){
 
         Plambda4[k] = exp( m*lambda0*tempTran - v*X0) * (beta-v) / beta*(alpha-eta)/alpha*tempMeanExp/path; 
 // Real Q measurement finished
-*/
+
 
         clock_t end = clock();
         double elapsed_secs = double(end - begin) / CLOCKS_PER_SEC;
-//        double elapsed_middle_secs = double(end - middle) / CLOCKS_PER_SEC;
-//        cout <<"No." << k <<" iteration, PT: "<< Plambda1[k] << ", full time: " << elapsed_secs << << ", half time: " << elapsed_middle_secs << endl;
-        cout <<"No." << k <<" iteration, lambda 1,2,3: "<< Plambda1[k]<< "," << Plambda2[k] <<"," << Plambda3[k] << ", full time: " << elapsed_secs << endl;
-
+        double elapsed_middle_secs = double(end - middle) / CLOCKS_PER_SEC;
+        cout <<"No." << k <<" iter, PT: "<< Plambda1[k] << ", Q time: " << elapsed_secs - elapsed_middle_secs << ", P time: " << elapsed_middle_secs << endl;
+//        cout <<"No." << k <<" iteration, lambda 1,2,3: "<< Plambda1[k]<< "," << Plambda2[k] <<"," << Plambda3[k] << ", full time: " << elapsed_secs << endl;
 // output result
 //    	fout << k+1 << "," << PT[k] << "," << elapsed_secs << endl;
-//        fout << Plambda[k] << "," << Plambda1[k]*100 << "," << Plambda2[k]*100 << "," << Plambda[3]*100 << "," << Plambda4[k]*100 << endl;
-        fout << Plambda[k] << "," << Plambda1[k]*100 << "," << Plambda2[k]*100 << "," << Plambda[3]*100 << endl;
+        fout << Plambda[k] << "," << Plambda1[k]*100 << "," << Plambda2[k]*100 << "," << Plambda[3]*100 << "," << Plambda4[k]*100 << endl;
+//        fout << Plambda[k] << "," << Plambda1[k]*100 << "," << Plambda2[k]*100 << "," << Plambda[3]*100 << endl;
 
 	}
 	fout.close();
