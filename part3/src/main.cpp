@@ -9,11 +9,11 @@ using namespace std;
 
 int main(){
     cout << "Enter main\n";
-    double a(2), b(1), sigma(0.1), alpha(2);
-    double beta(1.5), X0(3), c(1.5), h(0.01), path(10000);
+    double a(3), b(0.7), sigma(0.1), alpha(1.5);
+    double beta(1), X0(10), c(1.5), h(0.01), path(10000);
     int iter(10), step(1), T(100);
     double Plambda[iter], Plambda1[iter], Plambda2[iter], Plambda3[iter], Plambda4[iter];
-	double v(0.3927), eta(0.2946);
+	double v(0.2771), eta(0.1979);
 // Q measurement
 	double aTran = a-eta*pow(sigma,2);
 	double tempTran = 1 + a*eta - pow(eta,2)*pow(sigma,2) / 2;
@@ -108,15 +108,15 @@ int main(){
             tempMeanExp += exp(-m*lambdatau[i]);
         }
 
-        Plambda4[k] = exp( m*lambda0*tempTran - v*X0) * (beta-v) / beta*(alpha-eta)/alpha*tempMeanExp/path; 
+        Plambda4[k] = exp( m*lambda0*tempTran - v*X0) * (beta-v) / beta*(alpha-eta)/alpha*tempMeanExp/path;
 // Real Q measurement finished
 
 
         clock_t end = clock();
         double elapsed_secs = double(end - begin) / CLOCKS_PER_SEC;
         double elapsed_middle_secs = double(end - middle) / CLOCKS_PER_SEC;
-        cout <<"No." << k <<" iter, PT: "<< Plambda1[k] << ", Q time: " << elapsed_secs - elapsed_middle_secs << ", P time: " << elapsed_middle_secs << endl;
-//        cout <<"No." << k <<" iteration, lambda 1,2,3: "<< Plambda1[k]<< "," << Plambda2[k] <<"," << Plambda3[k] << ", full time: " << elapsed_secs << endl;
+//        cout <<"No." << k <<" iter, PT: "<< Plambda1[k] << ", Q time: " << elapsed_secs - elapsed_middle_secs << ", P time: " << elapsed_middle_secs << endl;
+        cout <<"No." << k <<" iteration, lambda 1,2,3,4: "<< Plambda1[k]<< "," << Plambda2[k] <<"," << Plambda3[k]<< "," << Plambda4[k] << ", full time: " << elapsed_secs << endl;
 // output result
 //    	fout << k+1 << "," << PT[k] << "," << elapsed_secs << endl;
         fout << Plambda[k] << "," << Plambda1[k]*100 << "," << Plambda2[k]*100 << "," << Plambda[3]*100 << "," << Plambda4[k]*100 << endl;
