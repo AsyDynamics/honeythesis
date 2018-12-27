@@ -64,7 +64,7 @@ int main(){
         Plambda[k]  = lambda0;
         Plambda1[k] = Num/path;
 		Plambda2[k] = exp(eta*lambda0 - v*X0);
-		Plambda3[k] = Plambda2[k]*(beta-v)/beta;
+		Plambda3[k] = exp(eta*lambda0 - v*X0)*(beta-v)/beta;
         clock_t middle = clock();
 // Real P measurement finished
 
@@ -105,7 +105,7 @@ int main(){
             while (Xt > 0);
             lambdatau[i] = lambda[j];
 
-            tempMeanExp += -m*exp(lambdatau[i]);
+            tempMeanExp += exp(-m*lambdatau[i]);
         }
 
         Plambda4[k] = exp( m*lambda0*tempTran - v*X0) * (beta-v) / beta*(alpha-eta)/alpha*tempMeanExp/path; 
