@@ -61,7 +61,7 @@ int main(){
             }
         }
 //		cout << "Num: " << Num <<"," << Num/path <<endl;
-        Plambda[k]  = lambda0;
+        Plambda[k]  = X0;
         Plambda1[k] = Num/path;
 		Plambda2[k] = exp(eta*lambda0 - v*X0);
 		Plambda3[k] = exp(eta*lambda0 - v*X0)*(beta-v)/beta;
@@ -104,8 +104,9 @@ int main(){
         double elapsed_secs = double(end - begin) / CLOCKS_PER_SEC;
         double elapsed_middle_secs = double(end - middle) / CLOCKS_PER_SEC;
 //        cout <<"No." << k <<" iter, PT: "<< Plambda1[k] << ", Q time: " << elapsed_secs - elapsed_middle_secs << ", P time: " << elapsed_middle_secs << endl;
-        cout << Plambda[k] << ","<< Plambda1[k]<< "," << Plambda2[k] <<"," << Plambda3[k]<< "," << Plambda4[k];
-        cout << ", full time: " << elapsed_secs << endl;
+        cout << Plambda[k] << ","<< Plambda1[k]<< "," << Plambda2[k] <<"," << Plambda3[k]<< "," << Plambda4[k] << endl;
+        fout << Plambda[k] << ","<< Plambda1[k]<< "," << Plambda2[k] <<"," << Plambda3[k]<< "," << Plambda4[k] << endl;
+//        cout << ", full time: " << elapsed_secs << endl;
 // output result
 //    	fout << k+1 << "," << PT[k] << "," << elapsed_secs << endl;
 //        fout << Plambda[k] << "," << Plambda1[k] << "," << Plambda2[k] << "," << Plambda[3] << "," << Plambda4[k] << endl;
