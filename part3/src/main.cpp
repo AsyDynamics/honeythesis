@@ -107,9 +107,8 @@ int main(){
         cout <<"No." << k <<" iteration, lambda 1,2,3,4: "<< Plambda1[k]<< "," << Plambda2[k] <<"," << Plambda3[k]<< "," << Plambda4[k] << ", full time: " << elapsed_secs << endl;
 // output result
 //    	fout << k+1 << "," << PT[k] << "," << elapsed_secs << endl;
-        fout << Plambda[k] << "," << Plambda1[k]*100 << "," << Plambda2[k]*100 << "," << Plambda[3]*100 << "," << Plambda4[k]*100 << endl;
+        fout << Plambda[k] << "," << Plambda1[k] << "," << Plambda2[k] << "," << Plambda[3] << "," << Plambda4[k] << endl;
 //        fout << Plambda[k] << "," << Plambda1[k]*100 << "," << Plambda2[k]*100 << "," << Plambda[3]*100 << endl;
-
 	}
 	fout.close();
 	return 0;
