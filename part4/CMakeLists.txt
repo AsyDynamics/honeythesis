@@ -1,0 +1,5 @@
+project(part4)
+cmake_minimum_required(VERSION 3.5)
+add_executable(run src/main.cpp)
+set(EXECUTABLE_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/bin)
+SET(CMAKE_CXX_FLAGS "-std=c++11")

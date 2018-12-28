@@ -1,0 +1,38 @@
+#IncludeRegexLine: ^[ 	]*#[ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/home/asy/Documents/honeythesis/part4/src/lambda.cpp
+lambda.h
+/home/asy/Documents/honeythesis/part4/src/lambda.h
+iostream
+-
+vector
+-
+cmath
+-
+random
+-
+iomanip
+-
+
+/home/asy/Documents/honeythesis/part4/src/lambda.h
+vector
+-
+
+/home/asy/Documents/honeythesis/part4/src/main.cpp
+iostream
+-
+vector
+-
+ctime
+-
+lambda.cpp
+/home/asy/Documents/honeythesis/part4/src/lambda.cpp
+fstream
+-
+
