@@ -24,8 +24,7 @@ vector<int> Lambda_Generator(double h, int T, double lambda0, double a, double b
     lambda[0] = lambda0;
     // main
     for (int j=1; j<J; j++){
-        double lambda_temp = lambda[j-1] + a*(b-lambda[j-1])*h + sigma*sqrt(lambda[j-1])*sqrt(h)*normal(gen);
-        lambda[j] = lambda_temp;
+        lambda[j] = lambda[j-1] + a*(b-lambda[j-1])*h + sigma*sqrt(lambda[j-1])*sqrt(h)*normal(gen);
         temp += h*lambda[j];
         if (temp>eps){
             double skip = exp_alpha(gen);

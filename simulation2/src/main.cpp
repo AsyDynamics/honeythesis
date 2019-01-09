@@ -9,9 +9,9 @@ using namespace std;
 int main(){
     cout << "Enter main\n";
 	ofstream fout("record.csv");
-    double a(2), b(1), sigma(0.1), alpha(2), lambda0(1);
-    double beta(1.5), X0(3), c(1.5), h(0.01), path(10000);
-    int iter(80), step(5);
+    double a(3), b(0.7), sigma(0.1), alpha(1.5), lambda0(0.7);
+    double beta(1), X0(10), c(1.5), h(0.01), path(10000);
+    int iter(40), step(5);
     double PT[iter];
 
 	cout << "h = " << h << endl;
@@ -32,7 +32,7 @@ int main(){
             for (int j=0; j<J; j++){
                 Xt += c*h;
                 if (pos >= Ntlen) {break;}
-                if (j == Nt[pos]){
+                if (j+1 == Nt[pos]){
                     pos ++;
                     Xt -= exp_beta(gen);}
                 if (Xt <= 0){
@@ -45,7 +45,7 @@ int main(){
         double elapsed_secs = double(end - begin) / CLOCKS_PER_SEC;
         cout <<"No." << k <<" iteration, PT: "<< PT[k] << ", Elapsed time: " << elapsed_secs << endl;
     	fout << k+1 << "," << PT[k] << "," << elapsed_secs << endl;
-	}
-	fout.close();
-	return 0;
+    }
+    fout.close();
+    return 0;
 }
