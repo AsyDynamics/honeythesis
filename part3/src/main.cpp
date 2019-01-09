@@ -135,12 +135,8 @@ int main(){
         clock_t end = clock();
         double elapsed_secs = double(end - begin) / CLOCKS_PER_SEC;
         double elapsed_middle_secs = double(end - middle) / CLOCKS_PER_SEC;
-//        cout <<"No." << k <<" iter, PT: "<< Plambda1[k] << ", Q time: " << elapsed_secs - elapsed_middle_secs << ", P time: " << elapsed_middle_secs << endl;
         cout <<"No." << k <<" iter, P new 1,2,3,4, std_new, std_P4: "<< Pnew[k] << "," << Plambda1[k]<< "," << Plambda2[k] <<"," << Plambda3[k]<< "," << Plambda4[k] << "," << Pnew_stderr[k] << ", " << P4_stderr[k] <<", time: " << elapsed_secs << endl;
-// output result
-//    	fout << k+1 << "," << PT[k] << "," << elapsed_secs << endl;
-        fout << Pnew[k] << "," <<Plambda[k] << "," << Plambda1[k] << "," << Plambda2[k] << "," << Plambda[3] << "," << Plambda4[k] << "," << Pnew_stderr[k] << "," << P4_stderr[k] << endl;
-//        fout << Plambda[k] << "," << Plambda1[k]*100 << "," << Plambda2[k]*100 << "," << Plambda[3]*100 << endl;
+        fout << Pnew[k] << "," <<Plambda[k] << "," << Plambda1[k] << "," << Plambda2[k] << "," << Plambda3[k] << "," << Plambda4[k] << "," << Pnew_stderr[k] << "," << P4_stderr[k] << endl;
 	}
 	fout.close();
 	return 0;
