@@ -1,0 +1,4 @@
+求期望，lambda_tau^star
+tau^star 代表破产时刻，即Nt的位置，Xt小于0时的j对应的lambda
+求出所有的值，取算数平均
+

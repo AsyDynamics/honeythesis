@@ -14,7 +14,6 @@ int main(){
     int iter(10), step(1), T(400);
     double Plambda[iter], Plambda1[iter], Plambda2[iter], Plambda3[iter], Plambda4[iter];
 	double v(0.2771), eta(0.1979);
-	double Pnew[iter], frac1((beta-v)/beta);
 // Q measurement
 	double aTran = a-eta*pow(sigma,2);
 	double tempTran = 1 + a*eta - pow(eta,2)*pow(sigma,2) / 2;
@@ -42,30 +41,11 @@ int main(){
 
 // Real P measurement
 		double lambda0 = (k+1)*step;
-		double frac2_num(exp(eta*lambda0-v*X0)), frac2_den(0);
-
         int Num(0);
         int J = T/h;
-        double lambda[J], temp(0);
-        lambda[0] = lambda0;
 
 		for (int i = 0; i < path; i++){
-			vector<int> Nt;
-
-
-            for (int j=1; j<J; j++){
-                lambda[j] = lambda[j-1] + a*(b-lambda[j-1])*h + sigma*sqrt(lambda[j-1])*sqrt(h)*normal(gen);
-                temp += h*lambda[j];
-                if (temp>eps){
-                    double skip = exp_alpha(gen);
-                    lambda[j] += skip;
-                    eps = exp_1(gen);
-                    temp = 0;
-                    Nt.push_back(j);
-                }
-            }
-
-
+			vector<int> Nt = Lambda_Generator(h,T,lambda0,a,b,sigma,alpha);
 			int pos(0), Ntlen(Nt.size());
 			double Xt(X0);
 
@@ -76,13 +56,11 @@ int main(){
                     pos ++;
                     Xt -= exp_beta(gen);}
                 if (Xt <= 0){
-					frac2_den += exp(eta*lambda[j]);
                     Num ++;
                     break;}
             }
         }
 //		cout << "Num: " << Num <<"," << Num/path <<endl;
-		Pnew[k] = frac1*frac2_num/frac2_den/Num;
         Plambda[k]  = lambda0;
         Plambda1[k] = Num/path;
 		Plambda2[k] = exp(eta*lambda0 - v*X0);
@@ -126,10 +104,10 @@ int main(){
         double elapsed_secs = double(end - begin) / CLOCKS_PER_SEC;
         double elapsed_middle_secs = double(end - middle) / CLOCKS_PER_SEC;
 //        cout <<"No." << k <<" iter, PT: "<< Plambda1[k] << ", Q time: " << elapsed_secs - elapsed_middle_secs << ", P time: " << elapsed_middle_secs << endl;
-        cout <<"No." << k <<" iteration, lambda new 1,2,3,4: "<< Pnew[k] << "," << Plambda1[k]<< "," << Plambda2[k] <<"," << Plambda3[k]<< "," << Plambda4[k] << ", full time: " << elapsed_secs << endl;
+        cout <<"No." << k <<" iteration, lambda 1,2,3,4: "<< Plambda1[k]<< "," << Plambda2[k] <<"," << Plambda3[k]<< "," << Plambda4[k] << ", full time: " << elapsed_secs << endl;
 // output result
 //    	fout << k+1 << "," << PT[k] << "," << elapsed_secs << endl;
-        fout << Pnew[k] << "," <<Plambda[k] << "," << Plambda1[k] << "," << Plambda2[k] << "," << Plambda[3] << "," << Plambda4[k] << endl;
+        fout << Plambda[k] << "," << Plambda1[k] << "," << Plambda2[k] << "," << Plambda[3] << "," << Plambda4[k] << endl;
 //        fout << Plambda[k] << "," << Plambda1[k]*100 << "," << Plambda2[k]*100 << "," << Plambda[3]*100 << endl;
 	}
 	fout.close();
