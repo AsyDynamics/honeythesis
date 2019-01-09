@@ -4,6 +4,7 @@
 #include <ctime>
 #include "lambda.cpp"
 #include <fstream>
+#include "stderr.cpp"
 //#include "my_random.h"
 using namespace std;
 
@@ -14,7 +15,7 @@ int main(){
     int iter(10), step(1), T(400);
     double Plambda[iter], Plambda1[iter], Plambda2[iter], Plambda3[iter], Plambda4[iter];
 	double v(0.2771), eta(0.1979);
-	double Pnew[iter], frac1((beta-v)/beta);
+	double Pnew[iter], frac1((beta-v)/beta), Pnew_stderr[iter], P4_stderr[iter];
 // Q measurement
 	double aTran = a-eta*pow(sigma,2);
 	double tempTran = 1 + a*eta - pow(eta,2)*pow(sigma,2) / 2;
@@ -36,6 +37,9 @@ int main(){
 
 	ofstream fout("record.csv");
 
+	vector<double> P4_array;
+	vector<double> Pnew_array;
+
     for (int k = 0; k < iter; k++){
         clock_t begin = clock();
 
@@ -48,6 +52,7 @@ int main(){
         int J = T/h;
         double lambda[J], temp(0);
         lambda[0] = lambda0;
+		Pnew_array.clear();
 
 		for (int i = 0; i < path; i++){
 			vector<int> Nt;
@@ -76,13 +81,15 @@ int main(){
                     pos ++;
                     Xt -= exp_beta(gen);}
                 if (Xt <= 0){
+					Pnew_array.push_back(exp(eta*lambda[j]));
 					frac2_den += exp(eta*lambda[j]);
                     Num ++;
                     break;}
             }
         }
 //		cout << "Num: " << Num <<"," << Num/path <<endl;
-		Pnew[k] = frac1*frac2_num/frac2_den/Num;
+		Pnew[k] = frac1*frac2_num/(frac2_den/Num);
+		Pnew_stderr[k] = mystderr(Pnew_array, frac2_den/Num);
         Plambda[k]  = lambda0;
         Plambda1[k] = Num/path;
 		Plambda2[k] = exp(eta*lambda0 - v*X0);
@@ -98,6 +105,7 @@ int main(){
 
     // lmabda_generation finished
     // insted of j-J for loop, the do-while should be used
+		P4_array.clear();
     	for (int i=0; i<path; i++){
             double Xt(X0), temp(0), lambda(lambda0Tran);
             do {
@@ -108,6 +116,7 @@ int main(){
 			        double skip = exp_alphaTran(gen);
 			        Xt -= exp_betaTran(gen);
 			        if (Xt <= 0){
+						P4_array.push_back(exp(-m*lambda));
                         tempMeanExp += exp(-m*lambda);
 				        lambdatau[i] = lambda;
 				        break;}
@@ -121,15 +130,16 @@ int main(){
             }while (Xt > 0);
         }
         Plambda4[k] = exp( m*lambda0*tempTran - v*X0) * (beta-v) / beta*(alpha-eta)/alpha*tempMeanExp/path;
+		P4_stderr[k] = mystderr(P4_array, tempMeanExp/path);
 // Real Q measurement finished
         clock_t end = clock();
         double elapsed_secs = double(end - begin) / CLOCKS_PER_SEC;
         double elapsed_middle_secs = double(end - middle) / CLOCKS_PER_SEC;
 //        cout <<"No." << k <<" iter, PT: "<< Plambda1[k] << ", Q time: " << elapsed_secs - elapsed_middle_secs << ", P time: " << elapsed_middle_secs << endl;
-        cout <<"No." << k <<" iteration, lambda new 1,2,3,4: "<< Pnew[k] << "," << Plambda1[k]<< "," << Plambda2[k] <<"," << Plambda3[k]<< "," << Plambda4[k] << ", full time: " << elapsed_secs << endl;
+        cout <<"No." << k <<" iter, P new 1,2,3,4, std_new, std_P4: "<< Pnew[k] << "," << Plambda1[k]<< "," << Plambda2[k] <<"," << Plambda3[k]<< "," << Plambda4[k] << "," << Pnew_stderr[k] << ", " << P4_stderr[k] <<", time: " << elapsed_secs << endl;
 // output result
 //    	fout << k+1 << "," << PT[k] << "," << elapsed_secs << endl;
-        fout << Pnew[k] << "," <<Plambda[k] << "," << Plambda1[k] << "," << Plambda2[k] << "," << Plambda[3] << "," << Plambda4[k] << endl;
+        fout << Pnew[k] << "," <<Plambda[k] << "," << Plambda1[k] << "," << Plambda2[k] << "," << Plambda[3] << "," << Plambda4[k] << "," << Pnew_stderr[k] << "," << P4_stderr[k] << endl;
 //        fout << Plambda[k] << "," << Plambda1[k]*100 << "," << Plambda2[k]*100 << "," << Plambda[3]*100 << endl;
 	}
 	fout.close();
